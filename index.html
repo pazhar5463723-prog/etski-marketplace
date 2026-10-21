@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بازاڕی جێتسکی</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f0f8ff;color:#12304a}
+header{background:#0077a8;color:white;padding:24px 16px;text-align:center}
+nav{display:flex;justify-content:space-around;background:#004e75;padding:14px 4px}
+nav a{color:white;text-decoration:none;font-weight:bold}
+main{padding:16px}
+h2{color:#006b94}
+.card{background:white;border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 3px 12px #0001}
+button{background:#0077a8;color:white;border:0;border-radius:9px;padding:12px 18px;font-size:16px}
+input,select{box-sizing:border-box;width:100%;padding:12px;margin:8px 0;border:1px solid #b7d5e5;border-radius:8px}
+footer{text-align:center;padding:20px;color:#567}
+</style>
+</head>
+<body>
+<header>
+<h1>🚤 بازاڕی جێتسکی</h1>
+<p>جێتسکی بکڕە، بفرۆشە یان بەکرێی بدە</p>
+</header>
+<nav>
+<a href="#buy">کڕین</a>
+<a href="#sell">فرۆشتن</a>
+<a href="#rent">بەکرێدان</a>
+</nav>
+<main>
+<section class="card" id="buy">
+<h2>🔎 گەڕان بۆ جێتسکی</h2>
+<input id="search" placeholder="ناو یان شوێن بنووسە">
+<button onclick="searchItems()">گەڕان</button>
+<div id="results">بەخێربێیت بۆ بازاڕی جێتسکی!</div>
+</section>
+<section class="card" id="sell">
+<h2>📸 جێتسکی خۆت بفرۆشە</h2>
+<input id="title" placeholder="ناوی جێتسکی">
+<input id="price" type="number" placeholder="نرخ بە دۆلار">
+<input id="location" placeholder="شوێن: سلێمانی، هەولێر، دهۆک">
+<label>وێنەی جێتسکی هەڵبژێرە</label>
+<input id="photo" type="file" accept="image/*">
+<button onclick="addListing()">زیادکردنی پۆست</button>
+</section>
+<section class="card" id="rent">
+<h2>🔑 بەشی بەکرێدان</h2>
+<p>جێتسکییەکان بۆ بەکرێدان لێرە پیشان دەدرێن.</p>
+</section>
+</main>
+<footer>بازاڕی جێتسکی © 2026</footer>
+<script>
+function addListing(){
+ const title=document.getElementById('title').value.trim();
+ const price=document.getElementById('price').value;
+ const location=document.getElementById('location').value.trim();
+ const photo=document.getElementById('photo').files[0];
+ if(!title||!price||!location){alert('تکایە هەموو خانەکان پڕ بکەرەوە');return;}
+ const card=document.createElement('div');
+ card.className='card';
+ const heading=document.createElement('h3');heading.textContent=title;
+ const details=document.createElement('p');details.textContent=price+' USD — '+location;
+ card.append(heading,details);
+ if(photo){const img=document.createElement('img');img.src=URL.createObjectURL(photo);img.style.width='100%';img.style.borderRadius='10px';card.append(img);}
+ document.getElementById('results').prepend(card);
+ alert('پۆستەکە لەم پێشبینینییەدا زیاد کرا.');
+}
+function searchItems(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const cards=[...document.querySelectorAll('#results .card')];
+ let found=0;
+ cards.forEach(c=>{const match=c.textContent.toLowerCase().includes(q);c.style.display=match?'block':'none';if(match)found++;});
+ if(!found)alert('هیچ پۆستێک نەدۆزرایەوە.');
+}
+</script>
+</body>
+</html>
